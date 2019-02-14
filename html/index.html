@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="main">
+        <div class="body">
+            <div class="body--upper">
+                <div class="nav--title">
+                    <h1 class="nav--title--check">Checkout</h1>
+                </div>
+                <div class="nav--list">
+                    <ul class="breadcrumbs">
+                        <li><a>Shipping</a></li>
+                        <li class="breadcrumbs--active"><a>Payment Method</a></li>
+                        <li><a>Confirmation</a></li>
+                    </ul>
+
+                </div>
+                <div class="nav--icon--close">
+                    <i class="fa fa-window-close" id="close"></i>
+                </div>
+            </div>
+            <div class="body--lower">
+                <div class="body--lower--payment">
+                    <h1>Wallet</h1>
+                    <hr>
+                    <div class="image">
+                        <div>
+                            <img class="image--cards" src="images/discover.png">
+                            <h4>Ending with 8899</h4>
+                        </div>
+                        <div class="image--active">
+                            <img class="image--cards" src="images/mastercard.png">
+                            <h4>Ending with 8899</h4>
+                        </div>
+                        <div>
+                            <img class="image--cards" src="images/visa.png">
+                            <h4>Ending with 8899</h4>
+                        </div>
+                    </div>
+                    <h1>New Card</h1>
+                    <div class="card-details">
+                        <hr>
+                        <div class="card-details--name">
+                            <input id="card-cardholder" type="text" placeholder="Name on Card">
+                        </div>
+                        <div class="card-details--number">
+                            <input id="card-cardnumber" type="text" placeholder="XXXX-XXXX-XXXX-XXXX">
+                        </div>
+                        <div class="card-details--detail">
+                            <input id="card-date" type="text" placeholder="MM/YY">
+                            <input id="card-cvv" type="text" placeholder="CVV">
+                        </div>
+                        <div class="card-details--submit">
+                            <input class="button" type="submit" value="CONTINUE">
+                        </div>
+                    </div>
+                </div>
+                <div class="body--lower--cart">
+                    <div class="product-mobile">
+                        <img class="image--products" src="images/mobile-holder.jpg" align="left">
+                        <h2>Mobile Holder</h2>
+                        <h3>Black</h3>
+                        <h4>Quantity:1</h4>
+                        <h5 class="price">$10.00</h5>
+                        <hr>
+                    </div>
+                    <div class="product-rado">
+                        <img class="image--products" src="images/rado.jpg" align="left">
+                        <h2>Rado Watch</h2>
+                        <h3>Black</h3>
+                        <h4>Quantity:1</h4>
+                        <h5 class="price">$10.00</h5>
+                        <hr>
+                    </div>
+                    <div class="product-converter">
+                        <img class="image--products" src="images/usb-c-2-micro.jpeg" align="left">
+                        <h2>C Type to Micro Converter</h2>
+                        <h3>Black</h3>
+                        <h4>Quantity:1</h4>
+                        <h5 class="price">$10.00</h5>
+                        <hr>
+                    </div>
+                    <div class="product-mobilecase">
+                        <img class="image--products" src="images/hard-case.jpg" align="left">
+                        <h2>Mobile Case</h2>
+                        <h3>Black</h3>
+                        <h4>Quantity:1</h4>
+                        <h5 class="price">$10.00</h5>
+                        <hr class="product--line">
+                    </div>
+                    <div class="product-subtotal">
+                        <div>
+                            <h6>Sub-Total</h6>
+                            <h6>Shipping</h6>
+                            <h6>Taxes</h6>
+                        </div>
+                        <div class="product-price">
+                            <h6>$100.00</h6>
+                            <h6>$10.00</h6>
+                            <h6>$5.00</h6>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="product-total">
+                        <div>
+                            <h6 class="total">Total</h6>
+                        </div>
+                        <div class="product-price">
+                            <h6 class="total">$115.00</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
