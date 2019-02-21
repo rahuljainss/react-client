@@ -1,6 +1,6 @@
 const style = {
   base: {
-    width: '90%',
+    width: '96%',
     padding: '10px',
     fontWeight: 'light',
     fontsize: '14px',
@@ -10,7 +10,7 @@ const style = {
   },
   error: {
     color: 'Red',
-    fontweight: 'light',
+    fontWeight: 'light',
     borderColor: 'Red',
   },
 };
