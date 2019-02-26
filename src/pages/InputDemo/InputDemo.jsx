@@ -184,7 +184,7 @@ class InputDemo extends Component {
         {this.renderFootball()}
         <div align="right">
           <Button value="Cancel" onClick={() => {}} />
-          <Button value="Submit" onClick={() => {}} style={style.margin} color="primary" disabled={this.hasErrors()||!this.isTouched()} />
+          <Button value="Submit" onClick={() => {}} style={style.margin} color="primary" disabled={this.hasErrors() || !this.isTouched()} />
         </div>
       </>
     );
