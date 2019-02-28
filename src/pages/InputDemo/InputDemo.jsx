@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as yup from 'yup';
+import withStyles from '@material-ui/core/styles/withStyles';
 import style from './style';
 import {
   TextField, RadioGroup,
@@ -111,7 +112,7 @@ class InputDemo extends Component {
     this.setState({
       Cricket: (Sport === CRICKET) ? event.nativeEvent.target.value : '',
       Football: (Sport === FOOTBALL) ? event.nativeEvent.target.value : '',
-    });
+    }, () => this.handleValidate());
   }
 
   getError = (field) => {
@@ -190,4 +191,4 @@ class InputDemo extends Component {
     );
   }
 }
-export default InputDemo;
+export default withStyles(style)(InputDemo);

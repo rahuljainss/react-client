@@ -1,9 +1,17 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import AddDialog from './components/AddDialog/AddDialog';
-import { Navbar } from '../components/Navbar';
+// import { Navbar } from '../../layouts';
 
-export default class Trainee extends React.Component {
+const styles = {
+  log: {
+    fontSize: '13px',
+    marginLeft: '20px',
+  },
+};
+class Trainee extends React.Component {
   state = {
     open: false,
   };
@@ -22,13 +30,14 @@ export default class Trainee extends React.Component {
 
   render() {
     const { open } = this.state;
+    const { classes } = this.props;
     return (
       <>
-        <Navbar />
         <Button
           variant="outlined"
           onClick={this.handleClickOpen}
           color="primary"
+          className={classes.log}
         >
           ADD TRAINEE
         </Button>
@@ -41,3 +50,7 @@ export default class Trainee extends React.Component {
     );
   }
 }
+Trainee.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.object).isRequired,
+};
+export default withStyles(styles)(Trainee);

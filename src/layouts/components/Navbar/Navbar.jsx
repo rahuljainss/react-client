@@ -6,6 +6,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 
 const styles = {
   base: {
@@ -14,6 +16,7 @@ const styles = {
   },
   grow: {
     flexGrow: 1,
+    fontSize: '20px',
   },
   main: {
     fontSize: '13px',
@@ -31,13 +34,21 @@ function ButtonAppBar(props) {
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="overline" color="inherit" className={classes.grow}>
+          <Typography variant="inline" color="inherit" className={classes.grow}>
             Trainee Portal
           </Typography>
-          <Button color="inherit" className={classes.main}>TRAINEE</Button>
-          <Button color="inherit" className={classes.main}>TEXTFIELD DEMO</Button>
-          <Button color="inherit" className={classes.main}>INPUT DEMO</Button>
-          <Button color="inherit" className={classes.main}>CHILDREN DEMO</Button>
+          <Link component={RouterLink} to="/" color="inherit" underline="none">
+            <Button color="inherit" className={classes.main}>TRAINEE</Button>
+          </Link>
+          <Link component={RouterLink} to="/textfield-demo" color="inherit" underline="none">
+            <Button color="inherit" className={classes.main}>TEXTFIELD DEMO</Button>
+          </Link>
+          <Link component={RouterLink} to="/input-demo" color="inherit" underline="none">
+            <Button color="inherit" className={classes.main}>INPUT DEMO</Button>
+          </Link>
+          <Link component={RouterLink} to="/children-demo" color="inherit" underline="none">
+            <Button color="inherit" className={classes.main}>CHILDREN DEMO</Button>
+          </Link>
           <Button color="inherit" className={classes.log}>LOGOUT</Button>
         </Toolbar>
       </AppBar>
