@@ -37,7 +37,7 @@ function ButtonAppBar(props) {
           <Typography variant="inline" color="inherit" className={classes.grow}>
             Trainee Portal
           </Typography>
-          <Link component={RouterLink} to="/" color="inherit" underline="none">
+          <Link component={RouterLink} to="/trainee" color="inherit" underline="none">
             <Button color="inherit" className={classes.main}>TRAINEE</Button>
           </Link>
           <Link component={RouterLink} to="/textfield-demo" color="inherit" underline="none">

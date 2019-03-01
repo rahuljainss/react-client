@@ -1,56 +1,20 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import AddDialog from './components/AddDialog/AddDialog';
-// import { Navbar } from '../../layouts';
+import TraineeList from './TraineeList';
+import TraineeDetail from './TraineeDetail';
 
-const styles = {
-  log: {
-    fontSize: '13px',
-    marginLeft: '20px',
-  },
+const propTypes = {
+  match: PropTypes.element.isRequired,
 };
-class Trainee extends React.Component {
-  state = {
-    open: false,
-  };
+const Topics = ({ match }) => (
+  <>
+    <Switch>
+      <Route exact path={match.path} component={TraineeList} />
+      <Route path={`${match.url}/:id`} component={TraineeDetail} />
+    </Switch>
+  </>
+);
+Topics.propTypes = propTypes;
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handle = () => {
-    this.setState({ open: false });
-  }
-
-  render() {
-    const { open } = this.state;
-    const { classes } = this.props;
-    return (
-      <>
-        <Button
-          variant="outlined"
-          onClick={this.handleClickOpen}
-          color="primary"
-          className={classes.log}
-        >
-          ADD TRAINEE
-        </Button>
-        <AddDialog
-          open={open}
-          onSubmit={this.handle}
-          onClose={this.handleClose}
-        />
-      </>
-    );
-  }
-}
-Trainee.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.object).isRequired,
-};
-export default withStyles(styles)(Trainee);
+export default Topics;
