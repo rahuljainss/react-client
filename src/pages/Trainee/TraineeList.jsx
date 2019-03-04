@@ -5,14 +5,16 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AddDialog from './components/AddDialog/AddDialog';
 import trainees from './data/trainee';
+import { SimpleTable } from '../../components/Table';
+import columns from './data/columns';
 
-const styles = {
+const styles = theme => ({
   log: {
     fontSize: '13px',
-    marginLeft: '20px',
+    marginLeft: theme.spacing.unit * 140,
     marginBottom: '20px',
   },
-};
+});
 class TraineeList extends React.Component {
   state = {
     open: false,
@@ -48,6 +50,7 @@ class TraineeList extends React.Component {
           onSubmit={this.handle}
           onClose={this.handleClose}
         />
+        <SimpleTable data={trainees} column={columns} />
         {
           trainees.map(trainee => (
             <div key={trainee.id}>
