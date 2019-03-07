@@ -64,7 +64,6 @@ class SimpleTable extends React.Component {
             <TableHead className={classes.base1}>
               <TableRow>
                 {column.map(header => (
-                  // <TableCell align={header.align}>{header.label}</TableCell>
                   <TableCell align={header.align}>
                     <TableSortLabel
                       active={orderBy === header.field}

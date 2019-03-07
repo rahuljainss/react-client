@@ -136,7 +136,7 @@ class TraineeList extends React.Component {
             {
               field: 'createdAt',
               label: 'Date',
-              align: 'right',
+              align: 'center',
               format: value => value && this.getDateFormatted(value),
             },
           ]}
