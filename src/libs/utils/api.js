@@ -1,10 +1,10 @@
 const axios = require('axios');
-
-const callApi = async (Email, Password) => {
+const Url = 'https://express-training.herokuapp.com/api/user';
+const callApi = async (methodName,url, Email, Password) => {
 try {
 const response = await axios({
-method: 'post',
-url: 'https://express-training.herokuapp.com/api/user/login',
+method: methodName,
+url: `${Url}${url}`,
 data: {
 email: Email,
 password: Password,
