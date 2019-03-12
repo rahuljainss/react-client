@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import withLoaderAndMessage from '../HOC/withLoaderAndMessage';
 
 const styles = theme => ({
   root: {
@@ -142,4 +143,4 @@ SimpleTable.defaultProps = {
   page: 0,
   rowsPerPage: 100,
 };
-export default withStyles(styles)(SimpleTable);
+export default withStyles(styles)(withLoaderAndMessage(SimpleTable));
