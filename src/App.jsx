@@ -4,6 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import {
   BrowserRouter as Router, Switch,
 } from 'react-router-dom';
+import { SnackBarProvider } from './contexts';
 import theme from './theme';
 import { AuthRoute, PrivateRoute } from './routes';
 import {
@@ -12,19 +13,21 @@ import {
 
 const App = () => (
   <>
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Switch>
-          <AuthRoute exact path="/login" component={Login} />
-          <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
-          <PrivateRoute exact path="/input-demo" component={InputDemo} />
-          <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
-          <PrivateRoute path="/trainee" component={Trainee} />
-          <PrivateRoute component={NoMatch} />
-        </Switch>
-      </Router>
-    </MuiThemeProvider>
+    <SnackBarProvider>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Switch>
+            <AuthRoute exact path="/login" component={Login} />
+            <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
+            <PrivateRoute exact path="/input-demo" component={InputDemo} />
+            <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
+            <PrivateRoute path="/trainee" component={Trainee} />
+            <PrivateRoute component={NoMatch} />
+          </Switch>
+        </Router>
+      </MuiThemeProvider>
+    </SnackBarProvider>
   </>
 );
 

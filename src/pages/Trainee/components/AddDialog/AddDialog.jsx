@@ -17,6 +17,7 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import * as yup from 'yup';
+import { SnackBarConsumer } from '../../../../contexts/SnackBarProvider/SnackBarProvider';
 
 const styles = theme => ({
   base: {
@@ -258,14 +259,19 @@ class AddDialog extends Component {
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
+          <SnackBarConsumer>
+          {({ openSnackbar }) => (
           <Button
-            onClick={this.handleSubmit}
+            // onClick={this.handleSubmit}
+            onClick={() => { this.handleSubmit(); openSnackbar('Successfully added trainee', 'success'); }}
             color="primary"
             variant="contained"
             disabled={this.hasErrors() || !this.isTouched()}
           >
             Submit
           </Button>
+          )}
+          </SnackBarConsumer>
         </DialogActions>
       </Dialog>
     );
