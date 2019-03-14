@@ -10,6 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import PersonIcon from '@material-ui/icons/Person';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import callApi from '../../libs/utils/api';
+import { SnackBarConsumer } from '../../contexts/SnackBarProvider/SnackBarProvider';
 import * as yup from 'yup';
 
 const styles = theme => ({
@@ -42,6 +45,13 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3,
   },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 });
 
 const Schema = yup.object({
@@ -54,6 +64,7 @@ class Login extends React.Component {
     touched: {},
     email: '',
     password: '',
+    loading: false,
   };
 
   handleBlur = index => () => {
@@ -121,6 +132,22 @@ class Login extends React.Component {
     return Object.keys(touched).length !== 0;
   }
 
+  handleCall = async(email,password,openSnackbar) => {
+    this.setState(
+      {
+        loading: true,
+      })
+    const token= await callApi('post','/login', email,password);
+    console.log(token);
+    const{ history }=this.props;
+    if(token.data) {
+    return(history.push('/trainee'));
+    }
+    else {
+      this.setState({loading: false},() => {openSnackbar(token, 'error');})
+    }
+  }
+
   render() {
     const {
       classes,
@@ -129,6 +156,7 @@ class Login extends React.Component {
     const {
       email,
       password,
+      loading,
     } = this.state;
 
     return (
@@ -187,15 +215,21 @@ class Login extends React.Component {
             error={!!this.getError('password')}
             helperText={this.getError('password')}
           />
+          <SnackBarConsumer>
+          {({ openSnackbar }) => (
           <Button
             className={classes.submit}
             fullWidth
             variant="contained"
             color="primary"
-            disabled={this.hasErrors() || !this.isTouched()}
+            disabled={this.hasErrors() || !this.isTouched() || loading}
+            onClick={() => this.handleCall(email,password,openSnackbar)}
           >
+          {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
             Sign in
           </Button>
+          )}
+          </SnackBarConsumer>
         </Paper>
       </main>
     );

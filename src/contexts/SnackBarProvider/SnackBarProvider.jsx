@@ -49,7 +49,6 @@ class SnackBarProvider extends Component {
   }
 
   openSnackbar = (message, status) => {
-    console.log('hiiiiiiiiii', message, status);
     this.setState({
       message,
       status,

@@ -26,6 +26,10 @@ const styles = {
     marginLeft: '20px',
   },
 };
+function clearToken() {
+  localStorage.clear();
+}
+
 
 function ButtonAppBar(props) {
   const { classes } = props;
@@ -49,7 +53,9 @@ function ButtonAppBar(props) {
           <Link component={RouterLink} to="/children-demo" color="inherit" underline="none">
             <Button color="inherit" className={classes.main}>CHILDREN DEMO</Button>
           </Link>
-          <Button color="inherit" className={classes.log}>LOGOUT</Button>
+          <Link component={RouterLink} to="/login" color="inherit" underline="none">
+          <Button color="inherit" className={classes.log} onClick={() => clearToken()}>LOGOUT</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>
