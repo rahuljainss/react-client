@@ -1,13 +1,15 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
 import * as moment from 'moment';
-// import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AddDialog from './components/AddDialog/AddDialog';
+import EditDialog from './components/EditDialog/EditDialog';
+import RemoveDialog from './components/RemoveDialog/RemoveDialog';
 import trainees from './data/trainee';
 import { SimpleTable } from '../../components/Table';
-// import columns from './data/columns';
 
 const styles = theme => ({
   log: {
@@ -19,6 +21,13 @@ const styles = theme => ({
 class TraineeList extends React.Component {
   state = {
     open: false,
+    rowsPerPage: 10,
+    page: 0,
+    opened: false,
+    remopen: false,
+    name: '',
+    email: '',
+    data: '',
   };
 
   handleClickOpen = () => {
@@ -27,10 +36,15 @@ class TraineeList extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+    this.setState({ opened: false });
+    this.setState({ remopen: false });
   };
 
-  handle = () => {
+  handle = (data) => {
     this.setState({ open: false });
+    this.setState({ opened: false });
+    this.setState({ remopen: false });
+    console.log(data);
   }
 
   getDateFormatted = (date) => {
@@ -40,14 +54,35 @@ class TraineeList extends React.Component {
   }
 
   handleSelect = (event, id) => {
-    // console.log('??????????????????????????', event.target, id);
     if (!event.target) {
       return;
     }
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', id);
     const { history } = this.props;
-    // console.log('>>>>>>>>>>>>', this.props);
     history.push(`/trainee/${id}`);
+  };
+
+  handleChangePage = (event, page) => {
+    if (!event.target) {
+      return;
+    }
+    this.setState({ page });
+  };
+
+  handleEditDialogOpen = (event, rec) => {
+    if (!event.target) {
+      return;
+    }
+    event.stopPropagation();
+    const { name, email } = rec;
+    this.setState({ opened: true, name, email });
+  };
+
+  handleRemoveDialogOpen =(event, rec) => {
+    if (!event.target) {
+      return;
+    }
+    event.stopPropagation();
+    this.setState({ remopen: true, data: rec });
   };
 
   handleSort = (event, property) => {
@@ -64,7 +99,9 @@ class TraineeList extends React.Component {
   };
 
   render() {
-    const { open, order, orderBy } = this.state;
+    const {
+      open, opened, remopen, order, orderBy, page, rowsPerPage, name, email, data,
+    } = this.state;
     const { classes } = this.props;
 
     return (
@@ -82,7 +119,6 @@ class TraineeList extends React.Component {
           onSubmit={this.handle}
           onClose={this.handleClose}
         />
-        {/* <SimpleTable data={trainees} column={columns} /> */}
         <SimpleTable
           id="id"
           data={trainees}
@@ -104,10 +140,37 @@ class TraineeList extends React.Component {
               format: value => value && this.getDateFormatted(value),
             },
           ]}
+          actions={[
+            {
+              icon: <EditIcon />,
+              handler: this.handleEditDialogOpen,
+            },
+            {
+              icon: <DeleteIcon />,
+              handler: this.handleRemoveDialogOpen,
+            },
+          ]}
           orderBy={orderBy}
           order={order}
+          page={page}
+          count={100}
+          rowsPerPage={rowsPerPage}
+          onChangePage={this.handleChangePage}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
+        />
+        <EditDialog
+          opened={opened}
+          onSubmit={this.handle}
+          onClose={this.handleClose}
+          name={name}
+          email={email}
+        />
+        <RemoveDialog
+          remopen={remopen}
+          onSubmit={this.handle}
+          onClose={this.handleClose}
+          data={data}
         />
       </>
     );

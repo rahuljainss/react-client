@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,8 +7,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
-// import { format } from 'path';
 
 const styles = theme => ({
   root: {
@@ -26,6 +26,9 @@ const styles = theme => ({
   base: {
     fontSize: '14px',
   },
+  act: {
+    display: 'flex',
+  },
   row: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
@@ -41,7 +44,18 @@ class SimpleTable extends React.Component {
 
   render() {
     const {
-      classes, column, data, orderBy, order, onSort, onSelect,
+      classes,
+      column,
+      actions,
+      data,
+      orderBy,
+      order,
+      onSort,
+      onSelect,
+      onChangePage,
+      page,
+      rowsPerPage,
+      count,
     } = this.props;
     return (
       <>
@@ -81,19 +95,52 @@ class SimpleTable extends React.Component {
                         : trainee[header.field]}
                     </TableCell>
                   ))}
+                  {actions.map(header => (
+                    <Button
+                      onClick={event => header.handler(event, trainee)}
+                      className={classes.act}
+                      align={header.align}
+                    >
+                      {header.icon}
+                    </Button>
+                  ))}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
+          <TablePagination
+            pageSize={10}
+            component="div"
+            count={count}
+            rowsPerPageOptions={[]}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={onChangePage}
+          />
         </Paper>
       </>
     );
   }
 }
 SimpleTable.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.object).isRequired,
-  column: PropTypes.objectOf(PropTypes.object).isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  column: PropTypes.objectOf(PropTypes.string).isRequired,
   data: PropTypes.objectOf(PropTypes.string).isRequired,
+  actions: PropTypes.objectOf(PropTypes.string),
+  order: PropTypes.string,
+  orderBy: PropTypes.string,
+  page: PropTypes.number,
+  rowsPerPage: PropTypes.number,
+  onSort: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };
-SimpleTable.propTypes = PropTypes;
+SimpleTable.defaultProps = {
+  order: 'asc',
+  orderBy: '',
+  actions: null,
+  page: 0,
+  rowsPerPage: 100,
+};
 export default withStyles(styles)(SimpleTable);
