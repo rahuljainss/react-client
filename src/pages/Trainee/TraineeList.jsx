@@ -8,8 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 import AddDialog from './components/AddDialog/AddDialog';
 import EditDialog from './components/EditDialog/EditDialog';
 import RemoveDialog from './components/RemoveDialog/RemoveDialog';
-import trainees from './data/trainee';
 import { SimpleTable } from '../../components/Table';
+import callApi from '../../libs/utils/api';
 
 const styles = theme => ({
   log: {
@@ -28,6 +28,10 @@ class TraineeList extends React.Component {
     name: '',
     email: '',
     data: '',
+    limit: 10,
+    skip: 0,
+    loading: true,
+    traineeData: '',
   };
 
   handleClickOpen = () => {
@@ -44,7 +48,6 @@ class TraineeList extends React.Component {
     this.setState({ open: false });
     this.setState({ opened: false });
     this.setState({ remopen: false });
-    console.log(data);
   }
 
   getDateFormatted = (date) => {
@@ -62,10 +65,30 @@ class TraineeList extends React.Component {
   };
 
   handleChangePage = (event, page) => {
-    if (!event.target) {
+    if(!event.target) {
       return;
     }
-    this.setState({ page });
+    const updatedSkip = 10 * page;
+    const updatedLimit = 10;
+    this.setState({
+      page,
+      skip: updatedSkip,
+      limit: updatedLimit,
+    })
+    callApi('get', `/trainee?limit=${updatedLimit}&skip=${updatedSkip}`).then(
+      (lists) => {
+        if (lists.status) {
+          this.setState({
+            traineeData: lists.data.data.records,
+            loading: false,
+          });
+        } else {
+          this.setState({
+            loading: false
+          });
+        }
+      }
+    );
   };
 
   handleEditDialogOpen = (event, rec) => {
@@ -76,6 +99,25 @@ class TraineeList extends React.Component {
     const { name, email } = rec;
     this.setState({ opened: true, name, email });
   };
+
+  componentDidMount() {
+    this.setState({ loading: true });
+    const { skip, limit } = this.state;
+    callApi('get', `/trainee?limit=${limit}&skip=${skip}`).then(
+      (lists) => {
+        if (lists.status) {
+          this.setState({
+            traineeData: lists.data.data.records,
+            loading: false,
+          });
+        } else {
+          this.setState({
+            loading: false
+          });
+        }
+      }
+    );
+  }
 
   handleRemoveDialogOpen =(event, rec) => {
     if (!event.target) {
@@ -100,28 +142,28 @@ class TraineeList extends React.Component {
 
   render() {
     const {
-      open, opened, remopen, order, orderBy, page, rowsPerPage, name, email, data,
+      open, opened, remopen, order, orderBy, page, rowsPerPage, name, email, data, loading, traineeData,
     } = this.state;
     const { classes } = this.props;
 
     return (
       <>
-        <Button
-          variant="outlined"
-          onClick={this.handleClickOpen}
-          color="primary"
-          className={classes.log}
-        >
-          ADD TRAINEE LIST
+          <Button
+            variant="outlined"
+            onClick={this.handleClickOpen}
+            color="primary"
+            className={classes.log}
+          >
+            ADD TRAINEE LIST
         </Button>
-        <AddDialog
-          open={open}
-          onSubmit={this.handle}
-          onClose={this.handleClose}
-        />
+          <AddDialog
+            open={open}
+            onSubmit={this.handle}
+            onClose={this.handleClose}
+          />
         <SimpleTable
           id="id"
-          data={trainees}
+          data={traineeData}
           column={[
             {
               field: 'name',
@@ -156,6 +198,8 @@ class TraineeList extends React.Component {
           count={100}
           rowsPerPage={rowsPerPage}
           onChangePage={this.handleChangePage}
+          Loading={loading}
+          dataLen={traineeData.length}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
         />

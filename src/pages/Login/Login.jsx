@@ -137,10 +137,12 @@ class Login extends React.Component {
       {
         loading: true,
       })
-    const token= await callApi('post','/login', email,password);
+    const data={email,password};
+    const token= await callApi('post','/user/login', data);
     console.log(token);
     const{ history }=this.props;
     if(token.data) {
+    localStorage.setItem('token',token.data.data);
     return(history.push('/trainee'));
     }
     else {
