@@ -97,7 +97,7 @@ class TraineeList extends React.Component {
     }
     event.stopPropagation();
     const { name, email } = rec;
-    this.setState({ opened: true, name, email });
+    this.setState({ opened: true, name, email, data:rec });
   };
 
   componentDidMount() {
@@ -142,7 +142,7 @@ class TraineeList extends React.Component {
 
   render() {
     const {
-      open, opened, remopen, order, orderBy, page, rowsPerPage, name, email, data, loading, traineeData,
+      open, opened, remopen, order, orderBy, page, rowsPerPage, name, email, data, loading, traineeData
     } = this.state;
     const { classes } = this.props;
 
@@ -209,6 +209,7 @@ class TraineeList extends React.Component {
           onClose={this.handleClose}
           name={name}
           email={email}
+          data={data}
         />
         <RemoveDialog
           remopen={remopen}

@@ -16,10 +16,19 @@ import { withStyles } from '@material-ui/core/styles';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import { SnackBarConsumer } from '../../../../contexts/SnackBarProvider/SnackBarProvider';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import callApi from '../../../../libs/utils/api';
 
 const styles = theme => ({
   base: {
     margin: theme.spacing.unit * 2,
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
   },
 });
 
@@ -27,7 +36,11 @@ class EditDialog extends Component {
   state = {
     Name: '',
     Email: '',
+    data: '',
+    loading: false,
+    trainees: '',
   };
+
 
 
   handleSubmit = () => {
@@ -43,19 +56,42 @@ class EditDialog extends Component {
     });
   }
 
+  handleCall = async (openSnackbar) => {
+    this.setState({
+    loading: true,
+    })
+    const { Name, Email } = this.state;
+    const { data } = this.props;
+    const { originalId } = data;
+    const id = originalId;
+    const records = { name: Name, email: Email, id };
+    const token = await callApi('put', '/trainee', records);
+
+    if (token.status) {
+      this.setState({
+        loading: false,
+      });
+      if (token.status === 200) {
+        this.handleSubmit({Name,Email});
+        openSnackbar(token.data.message, 'success');
+      } else {
+        this.handleSubmit({});
+        openSnackbar(token.message, 'error');
+      }
+    }
+  }
+
   render() {
     const {
       opened,
       classes,
       onClose,
-      onSubmit,
       name,
       email,
     } = this.props;
 
     const {
-      Email,
-      Name,
+      loading,
     } = this.state;
     return (
       <Dialog
@@ -75,7 +111,7 @@ class EditDialog extends Component {
                 style={{ margin: 8 }}
                 type="text"
                 defaultValue={name}
-                onChange={event => this.handleOnChange(event.target.value, Email)}
+                onChange={event => this.handleOnChange(event.target.value, email)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -94,7 +130,7 @@ class EditDialog extends Component {
                 label="Email-Address"
                 style={{ margin: 8 }}
                 type="text"
-                onChange={event => this.handleOnChange(Name, event.target.value)}
+                onChange={event => this.handleOnChange(name, event.target.value)}
                 defaultValue={email}
                 InputProps={{
                   startAdornment: (
@@ -120,10 +156,12 @@ class EditDialog extends Component {
           <SnackBarConsumer>
           {({ openSnackbar }) => (
           <Button
-            onClick={() => {onSubmit({ Name, Email }); openSnackbar('Successfully updated', 'success');}}
+            onClick={() => {this.handleCall(openSnackbar)}}
             color="primary"
             variant="contained"
+            disabled={loading}
           >
+          {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
             Submit
           </Button>
           )}
@@ -140,6 +178,7 @@ const propTypes = {
   onSubmit: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 EditDialog.propTypes = propTypes;
 export default withStyles(styles)(EditDialog);
